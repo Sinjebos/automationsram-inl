@@ -1,0 +1,47 @@
+- hosts: web
+  become: yes
+  tasks:
+
+
+  - name: 'install git'
+    apt:
+      name: ['git']
+      state: latest
+
+  - name: 'Install wget'
+    apt:
+      name: wget
+      state: latest
+
+  - name: 'Install curl' 
+    apt:
+      name: curl
+      state: latest
+
+  - name: 'Install java' 
+    apt:
+      name: default-jdk
+      state: latest
+
+  - name: 'Install gnupg2' 
+    apt:
+      name: gnupg2
+      state: latest
+
+  - name: 'Get Jenkins key using wget'
+    shell: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+  - name: 'Add download repo for Jenkins'
+    become: true
+    shell: sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+  - name: 'Install Jenkins'
+    apt:
+      name: jenkins
+      state: latest
+
+  - name: 'Start jenkins and activate the service'
+    systemd:
+      name: jenkins
+      state: started
+      enabled: yes

@@ -1,0 +1,23 @@
+- hosts: web
+  become: yes
+  tasks:
+
+  - name: 'Stop nginx service to prevent crash'
+    systemd:
+      name: nginx
+      state: stopped
+      
+  - name: 'apt-get update'
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: 'install lighttpd'
+    apt:
+      name: ['lighttpd']
+      state: latest
+
+  - name: 'restart lighttpd'
+    service:
+      name: lighttpd
+      state: restarted
