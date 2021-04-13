@@ -1,6 +1,6 @@
 - hosts: web
   tasks:
-  - name: "copy index file to proper destination"
+  - name: 'copy "index.html" file to /var/www/html'
     copy:
       src: site/
       dest: /var/www/{{ domain }} #This gets the index.html file from site/ directory and moves it to /var/www/html
